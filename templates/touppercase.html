@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Works | Dave Benigno{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <div class="section-heading">
+        <p class="eyebrow">02 / WORKS</p>
+        <h1>My Works.</h1>
+    </div>
+
+    <div class="projects-grid">
+
+        <div class="project-card">
+
+            <span class="project-number">01</span>
+
+            <p class="project-category">
+                PYTHON
+            </p>
+
+            <h2>Uppercase Converter</h2>
+
+            <p>
+                A simple Python and Flask project that
+                converts text into uppercase.
+            </p>
+
+            <form method="POST">
+
+                <input
+                    type="text"
+                    name="inputString"
+                    placeholder="Type something..."
+                    required
+                >
+
+                <button type="submit">
+                    Convert
+                </button>
+
+            </form>
+
+            {% if result %}
+                <div class="result-box">
+                    <span>RESULT</span>
+                    <strong>{{ result }}</strong>
+                </div>
+            {% endif %}
+
+        </div>
+
+
+        <div class="project-card">
+
+            <span class="project-number">02</span>
+
+            <p class="project-category">
+                PYTHON / MATH
+            </p>
+
+            <h2>Circle Area Calculator</h2>
+
+            <p>
+                Calculate the area of a circle using
+                a radius value.
+            </p>
+
+            <a href="{{ url_for('acircle') }}" class="project-link">
+                Open Calculator ↗
+            </a>
+
+        </div>
+
+
+        <div class="project-card">
+
+            <span class="project-number">03</span>
+
+            <p class="project-category">
+                COMING SOON
+            </p>
+
+            <h2>More Projects</h2>
+
+            <p>
+                New projects will be added as I continue
+                learning and building.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

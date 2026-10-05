@@ -1,0 +1,368 @@
+{% extends "base.html" %}
+
+{% block title %}Home | Dave Benigno{% endblock %}
+
+{% block content %}
+
+
+<!-- =========================================
+     STARTUP ANIMATION
+========================================= -->
+
+<div class="startup" id="startup">
+
+    <div class="startup-top"></div>
+    <div class="startup-bottom"></div>
+
+    <div class="startup-center">
+
+        <p class="startup-small">
+            DSE PORTFOLIO / 2026
+        </p>
+
+        <div class="startup-name">
+            <span>DATA STRUCTURES</span>
+            <span>AND</span>
+            <span>ALGORITHMS</span>
+        </div>
+
+        <div class="startup-line"></div>
+
+        <p class="startup-status">
+            COMPUTER ENGINEERING STUDENT
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================
+     LIVE RANDOM MOVING BACKGROUND
+========================================= -->
+
+<div class="live-background" id="liveBackground"></div>
+
+
+<!-- =========================================
+     MOUSE SPOTLIGHT
+========================================= -->
+
+<div class="mouse-light" id="mouseLight"></div>
+
+
+<!-- =========================================
+     HOME / HERO SECTION
+========================================= -->
+
+<section class="hero">
+
+
+    <!-- LEFT SIDE -->
+
+    <div class="hero-content">
+
+        <p class="eyebrow">
+            HELLO, I'M
+        </p>
+
+
+        <h1>
+            Dave Justine<br>
+            <span>Benigno.</span>
+        </h1>
+
+
+        <p class="hero-description">
+            A computer engineering student learning Python,
+            web development, and programming one project
+            at a time.
+        </p>
+
+
+        <!-- BUTTONS -->
+
+        <div class="hero-buttons">
+
+            <a
+                href="{{ url_for('works') }}"
+                class="btn primary"
+            >
+                View My Works
+            </a>
+
+
+            <a
+                href="{{ url_for('profile') }}"
+                class="btn secondary"
+            >
+                About Me
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         RIGHT PROFILE CARD
+    ========================================= -->
+
+    <a
+        href="{{ url_for('profile') }}"
+        class="hero-card-link"
+    >
+
+        <div class="hero-card">
+
+            <div class="card-header">
+
+                <span>01</span>
+
+                <span>PORTFOLIO</span>
+
+            </div>
+
+
+            <!-- PROFILE IMAGE -->
+
+            <div class="profile-circle">
+
+                <img
+                    src="{{ url_for('static', filename='images/dave.png') }}"
+                    alt="Dave Benigno"
+                >
+
+            </div>
+
+
+            <!-- CARD INFORMATION -->
+
+            <div>
+
+                <p class="card-title">
+                    Computer Engineering Student
+                </p>
+
+                <p class="card-subtitle">
+                    Learning • Building • Improving
+                </p>
+
+            </div>
+
+        </div>
+
+    </a>
+
+</section>
+
+
+<!-- =========================================
+     SECOND HOME SECTION
+========================================= -->
+
+<section class="intro-section">
+
+    <p class="eyebrow">
+        WHAT THIS SITE IS
+    </p>
+
+    <h2>
+        A small collection of my
+        learning journey and projects.
+    </h2>
+
+</section>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+    /* =====================================
+       STARTUP ANIMATION
+    ===================================== */
+
+    window.addEventListener("load", function () {
+
+        const startup = document.getElementById("startup");
+
+
+        /* Wait 2.5 seconds */
+
+        setTimeout(function () {
+
+            startup.classList.add("startup-exit");
+
+            document.body.classList.add("website-loaded");
+
+        }, 2500);
+
+
+        /* Remove startup after transition */
+
+        setTimeout(function () {
+
+            startup.style.display = "none";
+
+        }, 3700);
+
+    });
+
+
+
+    /* =====================================
+       MOUSE SPOTLIGHT
+    ===================================== */
+
+    const mouseLight = document.getElementById("mouseLight");
+
+    document.addEventListener("mousemove", function (event) {
+
+        mouseLight.style.left = event.clientX + "px";
+
+        mouseLight.style.top = event.clientY + "px";
+
+    });
+
+
+
+    /* =====================================
+       RANDOM FLOATING SHAPES
+    ===================================== */
+
+    const liveBackground =
+        document.getElementById("liveBackground");
+
+
+    /* Available random shapes */
+
+    const shapeTypes = [
+        "circle",
+        "square",
+        "diamond",
+        "ring",
+        "triangle"
+    ];
+
+
+    /* Number of shapes */
+
+    const numberOfShapes = 15;
+
+
+    /* Create random shapes */
+
+    for (let i = 0; i < numberOfShapes; i++) {
+
+        const shape =
+            document.createElement("div");
+
+
+        /* Pick random shape */
+
+        const randomType =
+            shapeTypes[
+                Math.floor(
+                    Math.random() * shapeTypes.length
+                )
+            ];
+
+
+        shape.classList.add(
+            "random-shape",
+            randomType
+        );
+
+
+        /* =================================
+           RANDOM SIZE
+        ================================= */
+
+        const size =
+            Math.floor(Math.random() * 70) + 25;
+
+        shape.style.width =
+            size + "px";
+
+        shape.style.height =
+            size + "px";
+
+
+        /* =================================
+           RANDOM POSITION
+        ================================= */
+
+        shape.style.left =
+            Math.random() * 95 + "%";
+
+        shape.style.top =
+            Math.random() * 90 + "%";
+
+
+        /* =================================
+           RANDOM ROTATION
+        ================================= */
+
+        const rotation =
+            Math.floor(Math.random() * 360);
+
+        shape.style.setProperty(
+            "--rotation",
+            rotation + "deg"
+        );
+
+
+        /* =================================
+           RANDOM MOVEMENT
+        ================================= */
+
+        const moveX =
+            Math.floor(Math.random() * 120) - 60;
+
+        const moveY =
+            Math.floor(Math.random() * 120) - 60;
+
+
+        shape.style.setProperty(
+            "--move-x",
+            moveX + "px"
+        );
+
+        shape.style.setProperty(
+            "--move-y",
+            moveY + "px"
+        );
+
+
+        /* =================================
+           RANDOM SPEED
+        ================================= */
+
+        const duration =
+            Math.random() * 8 + 7;
+
+        shape.style.animationDuration =
+            duration + "s";
+
+
+        /* =================================
+           RANDOM STARTING POINT
+        ================================= */
+
+        shape.style.animationDelay =
+            -(Math.random() * duration) + "s";
+
+
+        /* Add shape to background */
+
+        liveBackground.appendChild(shape);
+
+    }
+
+</script>
+
+
+{% endblock %} 

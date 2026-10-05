@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Profile | Dave Benigno{% endblock %}
+
+{% block content %}
+
+<section class="page-section">
+
+    <!-- PAGE TITLE -->
+    <div class="section-heading">
+
+        <p class="eyebrow">
+            01 / PROFILE
+        </p>
+
+        <h1>
+            About Me.
+        </h1>
+
+    </div>
+
+
+    <!-- PROFILE CONTENT -->
+    <div class="profile-layout">
+
+
+        <!-- LEFT SIDE: PROFILE PICTURE -->
+        <div class="profile-image-container">
+
+            <img
+                src="{{ url_for('static', filename='images/dave.png') }}"
+                alt="Dave Benigno"
+                class="profile-image"
+            >
+
+        </div>
+
+
+        <!-- RIGHT SIDE: PROFILE INFORMATION -->
+        <div class="profile-description">
+
+
+            <p class="big-text">
+                I'm a Computer Engineering student currently
+                learning programming and web development.
+            </p>
+
+
+            <p>
+                I'm interested in building websites,
+                applications, and programming projects.
+            </p>
+
+
+            <p>
+                This portfolio serves as a collection of
+                my projects and progress as I continue
+                learning Computer Engineering.
+            </p>
+
+
+            <!-- INFORMATION -->
+            <div class="info-list">
+
+    <div>
+        <span>Name</span>
+        <strong>Dave Justine Benigno</strong>
+    </div>
+
+    <div>
+        <span>Institution</span>
+        <strong>Polytechnic University of the Philippines</strong>
+    </div>
+
+    <div>
+        <span>Program</span>
+        <strong>Bachelor of Science in Computer Engineering</strong>
+    </div>
+
+    <div>
+        <span>Section</span>
+        <strong>BSCpE 2-3</strong>
+    </div>
+
+    <div>
+        <span>Course</span>
+        <strong>Data Structures and Algorithms</strong>
+    </div>
+
+    <div>
+        <span>Currently Learning</span>
+        <strong>Programming and Web Development</strong>
+    </div>
+
+</div>
+
+{% endblock %}
