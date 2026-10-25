@@ -1,9 +1,8 @@
-{% extends "base.html" %}
+ {% extends "base.html" %}
 
 {% block title %}Works | Dave Benigno{% endblock %}
 
 {% block content %}
-
 <section class="page-section">
 
     <div class="section-heading">
@@ -14,86 +13,105 @@
     <div class="projects-grid">
 
         <div class="project-card">
-
             <span class="project-number">01</span>
-
-            <p class="project-category">
-                PYTHON
-            </p>
+            <p class="project-category">PYTHON / TEXT</p>
 
             <h2>Uppercase Converter</h2>
+            <p>Convert your text into uppercase letters.</p>
 
-            <p>
-                A simple Python and Flask project that
-                converts text into uppercase.
-            </p>
-
-            <form method="POST">
+            <form method="POST" action="{{ url_for('works') }}">
+                <label for="inputString">Your text</label>
 
                 <input
                     type="text"
+                    id="inputString"
                     name="inputString"
+                    value="{{ input_string }}"
                     placeholder="Type something..."
                     required
                 >
 
-                <button type="submit">
-                    Convert
-                </button>
-
+                <button type="submit">Convert</button>
             </form>
 
             {% if result %}
-                <div class="result-box">
-                    <span>RESULT</span>
-                    <strong>{{ result }}</strong>
-                </div>
+            <div class="result-box" role="status">
+                <span>RESULT</span>
+                <strong>{{ result }}</strong>
+            </div>
             {% endif %}
-
         </div>
 
-
         <div class="project-card">
-
             <span class="project-number">02</span>
-
-            <p class="project-category">
-                PYTHON / MATH
-            </p>
+            <p class="project-category">PYTHON / MATH</p>
 
             <h2>Circle Area Calculator</h2>
-
-            <p>
-                Calculate the area of a circle using
-                a radius value.
-            </p>
+            <p>Calculate the area of a circle using its radius.</p>
 
             <a href="{{ url_for('acircle') }}" class="project-link">
                 Open Calculator ↗
             </a>
-
         </div>
 
+        <div class="project-card">
+            <span class="project-number">03</span>
+            <p class="project-category">PYTHON / MATH</p>
+
+            <h2>Rectangle Area Calculator</h2>
+            <p>Calculate the area using length and width.</p>
+
+            <a href="{{ url_for('arectangle') }}" class="project-link">
+                Open Calculator ↗
+            </a>
+        </div>
 
         <div class="project-card">
+            <span class="project-number">04</span>
+            <p class="project-category">PYTHON / DATA STRUCTURES</p>
 
-            <span class="project-number">03</span>
+            <h2>Infix to Postfix</h2>
+            <p>Convert an infix expression using a stack.</p>
 
-            <p class="project-category">
-                COMING SOON
-            </p>
+            <a
+                href="{{ url_for('infix_to_postfix') }}"
+                class="project-link"
+            >
+                Open Converter ↗
+            </a>
+        </div>
 
-            <h2>More Projects</h2>
+        <div class="project-card">
+            <span class="project-number">05</span>
+            <p class="project-category">PYTHON / DATA STRUCTURES</p>
 
+            <h2>Queue</h2>
             <p>
-                New projects will be added as I continue
-                learning and building.
+                Add items at the rear and remove them from the
+                front using First In, First Out.
             </p>
 
+            <a href="{{ url_for('queue') }}" class="project-link">
+                Open Queue ↗
+            </a>
+        </div>
+
+        <div class="project-card">
+            <span class="project-number">06</span>
+            <p class="project-category">PYTHON / DATA STRUCTURES</p>
+
+            <h2>Deque</h2>
+            <p>
+                Add and remove items at both the front and rear
+                of a double-ended queue.
+            </p>
+
+            <a href="{{ url_for('deque') }}" class="project-link">
+                Open Deque ↗
+            </a>
         </div>
 
     </div>
 
 </section>
-
 {% endblock %}

@@ -1,44 +1,395 @@
-from flask import Flask, render_template, request
+import math
+import os
+import re
+
+from flask import (
+    Flask,
+    render_template,
+    request,
+    session,
+    redirect,
+    url_for
+)
 
 app = Flask(__name__)
 
-@app.route('/')
+app.secret_key = os.environ.get(
+    "FLASK_SECRET_KEY",
+    "dave-local-portfolio-development-key"
+)
+
+
+# INFIX TO POSTFIX FUNCTION
+def convert_to_postfix(expression):
+    precedence = {
+        "+": 1,
+        "-": 1,
+        "*": 2,
+        "/": 2,
+        "%": 2,
+        "^": 3
+    }
+
+    pattern = re.compile(
+        r"\s+|[A-Za-z_][A-Za-z_0-9]*|"
+        r"(?:\d+(?:\.\d*)?|\.\d+)|[()+*/%^\-]"
+    )
+
+    tokens = []
+    position = 0
+
+    while position < len(expression):
+        match = pattern.match(expression, position)
+
+        if match is None:
+            raise ValueError(
+                f"Unsupported character: {expression[position]}"
+            )
+
+        token = match.group()
+        position = match.end()
+
+        if not token.isspace():
+            tokens.append(token)
+
+    if not tokens:
+        raise ValueError("Enter an infix expression.")
+
+    stack = []
+    output = []
+    expecting_operand = True
+
+    for token in tokens:
+        if token == "(":
+            if not expecting_operand:
+                raise ValueError("Add an operator before '('.")
+
+            stack.append(token)
+
+        elif token == ")":
+            if expecting_operand:
+                raise ValueError("Missing operand before ')'.")
+
+            while stack and stack[-1] != "(":
+                output.append(stack.pop())
+
+            if not stack:
+                raise ValueError("Parentheses do not match.")
+
+            stack.pop()
+            expecting_operand = False
+
+        elif token in precedence:
+            if expecting_operand:
+                raise ValueError(
+                    "Enter an operand before the operator. "
+                    "Unary plus and minus are unsupported."
+                )
+
+            while stack and stack[-1] != "(":
+                top = stack[-1]
+
+                higher = precedence[top] > precedence[token]
+
+                equal = (
+                    precedence[top] == precedence[token]
+                    and token != "^"
+                )
+
+                if higher or equal:
+                    output.append(stack.pop())
+                else:
+                    break
+
+            stack.append(token)
+            expecting_operand = True
+
+        else:
+            if not expecting_operand:
+                raise ValueError(
+                    "Add an operator between operands."
+                )
+
+            output.append(token)
+            expecting_operand = False
+
+    if expecting_operand:
+        raise ValueError("Your expression is incomplete.")
+
+    while stack:
+        token = stack.pop()
+
+        if token == "(":
+            raise ValueError("Parentheses do not match.")
+
+        output.append(token)
+
+    return " ".join(output)
+
+
+# VALIDATE CALCULATOR INPUTS
+def read_dimension(value, name):
+    try:
+        number = float(value)
+    except (ValueError, TypeError):
+        raise ValueError(f"Enter a valid {name.lower()}.")
+
+    if not math.isfinite(number) or number <= 0:
+        raise ValueError(
+            f"{name} must be a positive, finite number."
+        )
+
+    return number
+
+
+# HOME
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
-@app.route('/profile')
+
+# PROFILE
+@app.route("/profile")
 def profile():
-    return render_template('profile.html')
+    return render_template("profile.html")
 
-@app.route('/works', methods=['GET', 'POST'])
+
+# WORKS AND UPPERCASE CONVERTER
+@app.route("/works", methods=["GET", "POST"])
 def works():
     result = None
-    if request.method == 'POST':
-        input_string = request.form.get('inputString', '')
-        result = input_string.upper()
-    return render_template('touppercase.html', result=result)
+    input_string = ""
 
-@app.route('/works/area/circle', methods=['GET', 'POST'])
+    if request.method == "POST":
+        input_string = request.form.get("inputString", "")
+        result = input_string.upper()
+
+    return render_template(
+        "touppercase.html",
+        result=result,
+        input_string=input_string
+    )
+
+
+# CIRCLE AREA
+@app.route("/works/area/circle", methods=["GET", "POST"])
 def acircle():
     result = None
-    if request.method == 'POST':
-        radius = request.form.get('radius', '')
-        result = int(radius)*3.14*int(radius)
-    return render_template('circle.html', result=result)
+    error = ""
+    radius = ""
 
-# @app.route('/areaOfcirle', methods=['GET', 'POST'])
-# def areaOfcirle():
-#     result = None
-#     name=request.get('name','')
-#     print(name)
-#     if request.method == 'POST':
-#         input_string = request.form.get('inputradius', '')
-#         result = int(input_string) * int(input_string) * 3.14
-#     return render_template('areaCircle.html', result=result)
+    if request.method == "POST":
+        radius = request.form.get("radius", "")
 
-@app.route('/contact')
+        try:
+            radius_number = read_dimension(radius, "Radius")
+            area = radius_number * 3.14 * radius_number
+
+            if not math.isfinite(area):
+                raise ValueError("The result is too large.")
+
+            result = f"{area:,.2f}"
+
+        except ValueError as message:
+            error = str(message)
+
+    return render_template(
+        "circle.html",
+        result=result,
+        error=error,
+        radius=radius
+    )
+
+
+# RECTANGLE AREA
+@app.route("/works/area/rectangle", methods=["GET", "POST"])
+def arectangle():
+    result = None
+    error = ""
+    length = ""
+    width = ""
+
+    if request.method == "POST":
+        length = request.form.get("length", "")
+        width = request.form.get("width", "")
+
+        try:
+            length_number = read_dimension(length, "Length")
+            width_number = read_dimension(width, "Width")
+
+            area = length_number * width_number
+
+            if not math.isfinite(area):
+                raise ValueError("The result is too large.")
+
+            result = f"{area:,.2f}"
+
+        except ValueError as message:
+            error = str(message)
+
+    return render_template(
+        "rectangle.html",
+        result=result,
+        error=error,
+        length=length,
+        width=width
+    )
+
+
+# INFIX TO POSTFIX PAGE
+@app.route("/works/infix-to-postfix", methods=["GET", "POST"])
+def infix_to_postfix():
+    expression = ""
+    result = None
+    error = ""
+
+    if request.method == "POST":
+        expression = request.form.get(
+            "expression", ""
+        ).strip()
+
+        try:
+            result = convert_to_postfix(expression)
+        except ValueError as message:
+            error = str(message)
+
+    return render_template(
+        "infix_to_postfix.html",
+        expression=expression,
+        result=result,
+        error=error
+    )
+
+
+# QUEUE
+@app.route("/works/queue", methods=["GET", "POST"])
+def queue():
+    items = session.get("queue_items", [])
+    message = session.pop("queue_message", "")
+
+    if request.method == "POST":
+        action = request.form.get("action", "")
+        value = request.form.get("value", "").strip()
+
+        if action == "enqueue":
+            if not value:
+                message = "Enter a value first."
+
+            elif len(value) > 50:
+                message = "Use up to 50 characters."
+
+            elif len(items) >= 20:
+                message = "Queue limit reached. Remove an item first."
+
+            else:
+                items.append(value)
+                message = f"Added to rear: {value}"
+
+        elif action == "dequeue":
+            if items:
+                removed = items.pop(0)
+                message = f"Removed from front: {removed}"
+            else:
+                message = "The queue is empty."
+
+        elif action == "peek":
+            if items:
+                message = f"Front item: {items[0]}"
+            else:
+                message = "The queue is empty."
+
+        elif action == "clear":
+            items = []
+            message = "Queue cleared."
+
+        session["queue_items"] = items
+        session["queue_message"] = message
+
+        return redirect(url_for("queue"))
+
+    return render_template(
+        "queue.html",
+        items=items,
+        message=message
+    )
+
+
+# DEQUE
+@app.route("/works/deque", methods=["GET", "POST"])
+def deque():
+    items = session.get("deque_items", [])
+    message = session.pop("deque_message", "")
+
+    if request.method == "POST":
+        action = request.form.get("action", "")
+        value = request.form.get("value", "").strip()
+
+        if action in ("add_front", "add_rear"):
+            if not value:
+                message = "Enter a value first."
+
+            elif len(value) > 50:
+                message = "Use up to 50 characters."
+
+            elif len(items) >= 20:
+                message = "Deque limit reached. Remove an item first."
+
+            elif action == "add_front":
+                items.insert(0, value)
+                message = f"Added to front: {value}"
+
+            else:
+                items.append(value)
+                message = f"Added to rear: {value}"
+
+        elif action == "remove_front":
+            if items:
+                removed = items.pop(0)
+                message = f"Removed from front: {removed}"
+            else:
+                message = "The deque is empty."
+
+        elif action == "remove_rear":
+            if items:
+                removed = items.pop()
+                message = f"Removed from rear: {removed}"
+            else:
+                message = "The deque is empty."
+
+        elif action == "peek_front":
+            if items:
+                message = f"Front item: {items[0]}"
+            else:
+                message = "The deque is empty."
+
+        elif action == "peek_rear":
+            if items:
+                message = f"Rear item: {items[-1]}"
+            else:
+                message = "The deque is empty."
+
+        elif action == "clear":
+            items = []
+            message = "Deque cleared."
+
+        session["deque_items"] = items
+        session["deque_message"] = message
+
+        return redirect(url_for("deque"))
+
+    return render_template(
+        "deque.html",
+        items=items,
+        message=message
+    )
+
+
+# CONTACT
+@app.route("/contact")
 def contact():
-    return render_template('contact.html')
+    return render_template("contact.html")
 
+
+# RUN APPLICATION
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 

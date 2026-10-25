@@ -3,7 +3,6 @@
 {% block title %}Circle Calculator | Dave Benigno{% endblock %}
 
 {% block content %}
-
 <section class="page-section calculator-section">
 
     <div class="section-heading">
@@ -14,20 +13,22 @@
     <div class="calculator-card">
 
         <p>
-            Enter the radius of a circle to calculate
-            its area.
+            Enter the radius of a circle to calculate its area.
         </p>
 
-        <form method="POST">
+        <p class="tool-hint">
+            Formula: Area = 3.14 × Radius × Radius
+        </p>
 
-            <label for="radius">
-                Radius
-            </label>
+        <form method="POST" action="{{ url_for('acircle') }}">
+
+            <label for="radius">Radius</label>
 
             <input
                 type="number"
                 id="radius"
                 name="radius"
+                value="{{ radius }}"
                 min="0"
                 step="any"
                 placeholder="Enter radius"
@@ -40,13 +41,17 @@
 
         </form>
 
-        {% if result is not none %}
-
-        <div class="result-box">
-            <span>AREA</span>
-            <strong>{{ result }}</strong>
+        {% if error %}
+        <div class="error-box" role="alert">
+            {{ error }}
         </div>
+        {% endif %}
 
+        {% if result is not none %}
+        <div class="result-box" role="status">
+            <span>AREA</span>
+            <strong>{{ result }} square units</strong>
+        </div>
         {% endif %}
 
         <a href="{{ url_for('works') }}" class="back-link">
@@ -56,5 +61,4 @@
     </div>
 
 </section>
-
-{% endblock %}
+{% endblock %}  

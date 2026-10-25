@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Deque | Dave Benigno{% endblock %}
+
+{% block content %}
+<section class="page-section calculator-section">
+
+    <div class="section-heading">
+        <p class="eyebrow">PROJECT / 06</p>
+        <h1>Deque.</h1>
+    </div>
+
+    <div class="calculator-card structure-card">
+        <p>
+            A double-ended queue.
+            Add or remove items at either the front or rear.
+        </p>
+
+        <form method="POST" action="{{ url_for('deque') }}">
+            <label for="value">Item</label>
+
+            <input
+                type="text"
+                id="value"
+                name="value"
+                placeholder="Enter a name or number"
+                maxlength="50"
+            >
+
+            <div class="structure-actions">
+                <button type="submit" name="action" value="add_front">
+                    Add Front
+                </button>
+
+                <button type="submit" name="action" value="add_rear">
+                    Add Rear
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="remove_front"
+                >
+                    Remove Front
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="remove_rear"
+                >
+                    Remove Rear
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="peek_front"
+                    class="outline-button"
+                >
+                    Peek Front
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="peek_rear"
+                    class="outline-button"
+                >
+                    Peek Rear
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="clear"
+                    class="outline-button"
+                >
+                    Clear
+                </button>
+            </div>
+        </form>
+
+        <div class="sample-inputs">
+            <h3>Sample Inputs</h3>
+            <p>Select a value, then press Add Front or Add Rear.</p>
+
+            <div class="sample-buttons">
+                <button type="button" onclick="useSample('A')">
+                    A
+                </button>
+
+                <button type="button" onclick="useSample('B')">
+                    B
+                </button>
+
+                <button type="button" onclick="useSample('C')">
+                    C
+                </button>
+            </div>
+        </div>
+
+        {% if message %}
+        <div class="result-box" role="status">
+            <span>STATUS</span>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+
+        <div class="structure-display">
+            <div class="structure-labels">
+                <span>FRONT</span>
+                <span>REAR</span>
+            </div>
+
+            <div class="structure-items" aria-label="Deque items">
+                {% for item in items %}
+                <div class="structure-item">{{ item }}</div>
+                {% else %}
+                <p class="empty-message">The deque is empty.</p>
+                {% endfor %}
+            </div>
+
+            <p class="structure-count">
+                Items: {{ items | length }} / 20
+            </p>
+        </div>
+
+        <a href="{{ url_for('works') }}" class="back-link">
+            ← Back to Works
+        </a>
+    </div>
+
+</section>
+
+<script>
+    function useSample(value) {
+        const input = document.getElementById("value");
+        input.value = value;
+        input.focus();
+    }
+</script>
+{% endblock %} 

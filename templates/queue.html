@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Queue | Dave Benigno{% endblock %}
+
+{% block content %}
+<section class="page-section calculator-section">
+
+    <div class="section-heading">
+        <p class="eyebrow">PROJECT / 05</p>
+        <h1>Queue.</h1>
+    </div>
+
+    <div class="calculator-card structure-card">
+        <p>
+            First In, First Out.
+            Add items at the rear and remove items from the front.
+        </p>
+
+        <form method="POST" action="{{ url_for('queue') }}">
+            <label for="value">Item</label>
+
+            <input
+                type="text"
+                id="value"
+                name="value"
+                placeholder="Enter a name or number"
+                maxlength="50"
+            >
+
+            <div class="structure-actions">
+                <button type="submit" name="action" value="enqueue">
+                    Enqueue
+                </button>
+
+                <button type="submit" name="action" value="dequeue">
+                    Dequeue
+                </button>
+
+                <button type="submit" name="action" value="peek">
+                    Peek Front
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="clear"
+                    class="outline-button"
+                >
+                    Clear
+                </button>
+            </div>
+        </form>
+
+        <div class="sample-inputs">
+            <h3>Sample Inputs</h3>
+            <p>Select a value, then press Enqueue.</p>
+
+            <div class="sample-buttons">
+                <button type="button" onclick="useSample('10')">
+                    10
+                </button>
+
+                <button type="button" onclick="useSample('20')">
+                    20
+                </button>
+
+                <button type="button" onclick="useSample('30')">
+                    30
+                </button>
+            </div>
+        </div>
+
+        {% if message %}
+        <div class="result-box" role="status">
+            <span>STATUS</span>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+
+        <div class="structure-display">
+            <div class="structure-labels">
+                <span>FRONT / REMOVE</span>
+                <span>REAR / ADD</span>
+            </div>
+
+            <div class="structure-items" aria-label="Queue items">
+                {% for item in items %}
+                <div class="structure-item">{{ item }}</div>
+                {% else %}
+                <p class="empty-message">The queue is empty.</p>
+                {% endfor %}
+            </div>
+
+            <p class="structure-count">
+                Items: {{ items | length }} / 20
+            </p>
+        </div>
+
+        <a href="{{ url_for('works') }}" class="back-link">
+            ← Back to Works
+        </a>
+    </div>
+
+</section>
+
+<script>
+    function useSample(value) {
+        const input = document.getElementById("value");
+        input.value = value;
+        input.focus();
+    }
+</script>
+{% endblock %} 

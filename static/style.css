@@ -1650,3 +1650,178 @@ footer {
     }
 
 }
+
+/* RECTANGLE AND INFIX TO POSTFIX */
+
+.calculator-card .tool-hint {
+    margin-top: 12px;
+    color: #aaa;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.sample-inputs {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.sample-inputs h3 {
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 15px;
+}
+
+.sample-inputs p {
+    margin-bottom: 14px;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.sample-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sample-buttons button {
+    padding: 10px 14px;
+    background: var(--surface-light);
+    color: var(--text);
+    border: 1px solid #444;
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+}
+
+.sample-buttons button:hover {
+    background: #292929;
+    border-color: #888;
+}
+
+.error-box {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: #241313;
+    color: #ffb4b4;
+    border: 1px solid #744040;
+    font-size: 14px;
+    overflow-wrap: anywhere;
+}
+
+.postfix-output {
+    font-family: Consolas, monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .calculator-card {
+        padding: 24px;
+    }
+
+    .calculator-section .section-heading h1 {
+        font-size: clamp(36px, 9vw, 54px);
+        letter-spacing: -2px;
+        line-height: 1.1;
+        overflow-wrap: anywhere;
+    }
+
+    .sample-buttons {
+        flex-direction: column;
+    }
+
+    .sample-buttons button {
+        width: 100%;
+    }
+} 
+/* QUEUE AND DEQUE */
+
+.structure-card {
+    max-width: 760px;
+}
+
+.structure-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.structure-actions .outline-button {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #555;
+}
+
+.structure-actions .outline-button:hover {
+    background: #252525;
+}
+
+.structure-display {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.structure-labels {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+    color: #aaa;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.structure-items {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 90px;
+    padding: 16px;
+    overflow-x: auto;
+    background: #090909;
+    border: 1px solid var(--border);
+}
+
+.structure-item {
+    flex: 0 0 auto;
+    max-width: 200px;
+    min-width: 58px;
+    padding: 15px;
+    border: 1px solid #666;
+    background: var(--surface-light);
+    color: var(--text);
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.structure-item:first-child {
+    border-left: 3px solid white;
+}
+
+.structure-item:last-child {
+    border-right: 3px solid white;
+}
+
+.structure-count,
+.empty-message {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.structure-count {
+    margin-top: 12px;
+}
+
+@media (max-width: 600px) {
+    .structure-actions button {
+        flex: 1 1 130px;
+    }
+} 

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}Infix to Postfix | Dave Benigno{% endblock %}
+
+{% block content %}
+<section class="page-section calculator-section">
+
+    <div class="section-heading">
+        <p class="eyebrow">PROJECT / 04</p>
+        <h1>Infix to Postfix.</h1>
+    </div>
+
+    <div class="calculator-card">
+
+        <p>Enter an infix expression to convert it into postfix.</p>
+
+        <p class="tool-hint">
+            Operators: +, -, *, /, %, ^.
+            Use ^ for exponentiation.
+            Use parentheses to group terms.
+            Enter multiplication explicitly, such as 2 * A.
+            Unary plus and minus are unsupported.
+        </p>
+
+        <form
+            method="POST"
+            action="{{ url_for('infix_to_postfix') }}"
+        >
+            <label for="expression">Infix expression</label>
+
+            <input
+                type="text"
+                id="expression"
+                name="expression"
+                value="{{ expression }}"
+                placeholder="Example: (A + B) * C"
+                spellcheck="false"
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit">Convert to Postfix</button>
+        </form>
+
+        <div class="sample-inputs">
+            <h3>Sample Inputs</h3>
+            <p>Click an example to fill the input.</p>
+
+            <div class="sample-buttons">
+                <button
+                    type="button"
+                    onclick="useInfixSample('A + B * C')"
+                >
+                    A + B * C
+                </button>
+
+                <button
+                    type="button"
+                    onclick="useInfixSample('(A + B) * C')"
+                >
+                    (A + B) * C
+                </button>
+
+                <button
+                    type="button"
+                    onclick="useInfixSample('A ^ B ^ C')"
+                >
+                    A ^ B ^ C
+                </button>
+
+                <button
+                    type="button"
+                    onclick="useInfixSample('(10 + 20) / 5')"
+                >
+                    (10 + 20) / 5
+                </button>
+            </div>
+        </div>
+
+        {% if error %}
+        <div class="error-box" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        {% if result is not none %}
+        <div class="result-box" role="status">
+            <span>POSTFIX EXPRESSION</span>
+            <strong class="postfix-output">{{ result }}</strong>
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('works') }}" class="back-link">
+            ← Back to Works
+        </a>
+
+    </div>
+</section>
+
+<script>
+    function useInfixSample(expression) {
+        const input = document.getElementById("expression");
+        input.value = expression;
+        input.focus();
+    }
+</script>
+{% endblock %} 
