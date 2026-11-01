@@ -382,7 +382,115 @@ def deque():
         items=items,
         message=message
     )
+# BINARY SEARCH TREE FUNCTIONS
+def insert_tree_node(root, value):
+    if root is None:
+        return {
+            "value": value,
+            "left": None,
+            "right": None
+        }
 
+    if value < root["value"]:
+        root["left"] = insert_tree_node(root["left"], value)
+
+    elif value > root["value"]:
+        root["right"] = insert_tree_node(root["right"], value)
+
+    return root
+
+
+def get_inorder(root):
+    if root is None:
+        return []
+
+    return (
+        get_inorder(root["left"])
+        + [root["value"]]
+        + get_inorder(root["right"])
+    )
+
+
+def get_preorder(root):
+    if root is None:
+        return []
+
+    return (
+        [root["value"]]
+        + get_preorder(root["left"])
+        + get_preorder(root["right"])
+    )
+
+
+def get_postorder(root):
+    if root is None:
+        return []
+
+    return (
+        get_postorder(root["left"])
+        + get_postorder(root["right"])
+        + [root["value"]]
+    )
+
+
+# BINARY SEARCH TREE PAGE
+@app.route("/works/binary-tree", methods=["GET", "POST"])
+def binary_tree():
+    values = session.get("tree_values", [])
+    message = session.pop("tree_message", "")
+
+    if request.method == "POST":
+        action = request.form.get("action", "")
+
+        if action == "insert":
+            raw_value = request.form.get("value", "").strip()
+
+            try:
+                value = int(raw_value)
+
+                if value < -999 or value > 999:
+                    message = "Enter a whole number from -999 to 999."
+
+                elif value in values:
+                    message = "This number is already in the tree."
+
+                elif len(values) >= 15:
+                    message = "Tree limit reached. Clear the tree first."
+
+                else:
+                    values.append(value)
+                    message = f"Inserted: {value}"
+
+            except ValueError:
+                message = "Enter a valid whole number."
+
+        elif action == "sample":
+            values = [50, 30, 70, 20, 40, 60, 80]
+            message = "Sample tree loaded."
+
+        elif action == "clear":
+            values = []
+            message = "Tree cleared."
+
+        session["tree_values"] = values
+        session["tree_message"] = message
+
+        return redirect(url_for("binary_tree"))
+
+    root = None
+
+    for value in values:
+        root = insert_tree_node(root, value)
+
+    return render_template(
+        "binary_tree.html",
+        root=root,
+        count=len(values),
+        message=message,
+        inorder=get_inorder(root),
+        preorder=get_preorder(root),
+        postorder=get_postorder(root)
+    ) 
 
 # CONTACT
 @app.route("/contact")

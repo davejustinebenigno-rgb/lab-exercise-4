@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Works | Dave Benigno{% endblock %}
 
@@ -111,7 +111,22 @@
             </a>
         </div>
 
+        <div class="project-card">
+            <span class="project-number">07</span>
+            <p class="project-category">PYTHON / DATA STRUCTURES</p>
+
+            <h2>Binary Tree</h2>
+            <p>
+                Build a Binary Search Tree and view its inorder,
+                preorder, and postorder traversals.
+            </p>
+
+            <a href="{{ url_for('binary_tree') }}" class="project-link">
+                Open Binary Tree ↗
+            </a>
+        </div>
+
     </div>
 
 </section>
-{% endblock %}
+{% endblock %} 

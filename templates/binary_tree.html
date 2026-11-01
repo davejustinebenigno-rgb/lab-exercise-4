@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Binary Tree | Dave Benigno{% endblock %}
+
+{% macro draw_tree(node) %}
+<div class="bt-branch">
+    <div class="bt-node">{{ node["value"] }}</div>
+
+    {% if node["left"] or node["right"] %}
+    <div class="bt-children">
+
+        <div class="bt-child">
+            <span class="bt-edge-label">LEFT</span>
+
+            {% if node["left"] %}
+                {{ draw_tree(node["left"]) }}
+            {% else %}
+                <div class="bt-empty">Empty</div>
+            {% endif %}
+        </div>
+
+        <div class="bt-child">
+            <span class="bt-edge-label">RIGHT</span>
+
+            {% if node["right"] %}
+                {{ draw_tree(node["right"]) }}
+            {% else %}
+                <div class="bt-empty">Empty</div>
+            {% endif %}
+        </div>
+
+    </div>
+    {% endif %}
+</div>
+{% endmacro %}
+
+{% block content %}
+<section class="page-section calculator-section">
+
+    <div class="section-heading">
+        <p class="eyebrow">PROJECT / 07</p>
+        <h1>Binary Tree.</h1>
+    </div>
+
+    <div class="calculator-card bt-card">
+
+        <p>
+            Build a Binary Search Tree using whole numbers.
+            Smaller values go left. Larger values go right.
+        </p>
+
+        <p class="tool-hint">
+            The first number becomes the root.
+            Duplicate values are not added.
+            Limit: 15 nodes.
+        </p>
+
+        <form method="POST" action="{{ url_for('binary_tree') }}">
+            <label for="tree-value">Number</label>
+
+            <input
+                type="number"
+                id="tree-value"
+                name="value"
+                placeholder="Enter a whole number"
+                min="-999"
+                max="999"
+                step="1"
+                required
+            >
+
+            <div class="structure-actions">
+                <button type="submit" name="action" value="insert">
+                    Insert Number
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="sample"
+                    formnovalidate
+                    class="outline-button"
+                >
+                    Load Sample
+                </button>
+
+                <button
+                    type="submit"
+                    name="action"
+                    value="clear"
+                    formnovalidate
+                    class="outline-button"
+                >
+                    Clear Tree
+                </button>
+            </div>
+        </form>
+
+        {% if message %}
+        <div class="result-box" role="status">
+            <span>STATUS</span>
+            <p>{{ message }}</p>
+        </div>
+        {% endif %}
+
+        <div class="bt-display">
+            <h2>Tree Visualization</h2>
+            <p class="structure-count">Nodes: {{ count }} / 15</p>
+
+            <div
+                class="bt-scroll"
+                tabindex="0"
+                role="region"
+                aria-label="Binary search tree visualization"
+            >
+                {% if root %}
+                <div class="bt-tree">
+                    <span class="bt-root-label">ROOT</span>
+                    {{ draw_tree(root) }}
+                </div>
+                {% else %}
+                <p class="empty-message">
+                    The tree is empty. Insert a number or load the sample.
+                </p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="bt-traversals">
+
+            <div class="result-box">
+                <span>INORDER: LEFT → ROOT → RIGHT</span>
+                <p class="bt-traversal-output">
+                    {{ inorder | join(" → ") if inorder else "Empty" }}
+                </p>
+            </div>
+
+            <div class="result-box">
+                <span>PREORDER: ROOT → LEFT → RIGHT</span>
+                <p class="bt-traversal-output">
+                    {{ preorder | join(" → ") if preorder else "Empty" }}
+                </p>
+            </div>
+
+            <div class="result-box">
+                <span>POSTORDER: LEFT → RIGHT → ROOT</span>
+                <p class="bt-traversal-output">
+                    {{ postorder | join(" → ") if postorder else "Empty" }}
+                </p>
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('works') }}" class="back-link">
+            ← Back to Works
+        </a>
+
+    </div>
+
+</section>
+{% endblock %} 

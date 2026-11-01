@@ -1825,3 +1825,139 @@ a:focus-visible {
         flex: 1 1 130px;
     }
 } 
+/* BINARY SEARCH TREE */
+
+.bt-card {
+    max-width: 100%;
+    min-width: 0;
+}
+
+.bt-card .tool-hint {
+    margin-top: 12px;
+    color: #aaa;
+    font-size: 13px;
+}
+
+.bt-display {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.bt-display h2 {
+    font-size: 18px;
+}
+
+.bt-scroll {
+    margin-top: 16px;
+    padding: 24px;
+    overflow: auto;
+    max-height: 650px;
+    background: #090909;
+    border: 1px solid var(--border);
+}
+
+.bt-tree {
+    width: max-content;
+    min-width: 100%;
+    text-align: center;
+}
+
+.bt-root-label,
+.bt-edge-label {
+    display: block;
+    color: #aaa;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.bt-root-label {
+    margin-bottom: 10px;
+}
+
+.bt-branch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bt-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 56px;
+    height: 56px;
+    padding: 4px;
+    border: 1px solid #888;
+    border-radius: 50%;
+    background: var(--surface-light);
+    color: white;
+    font-family: Consolas, monospace;
+    font-size: 15px;
+}
+
+.bt-children {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 24px;
+}
+
+.bt-child {
+    position: relative;
+    flex: 1 0 auto;
+    min-width: 90px;
+    padding: 22px 12px 0;
+    border-top: 1px solid #555;
+}
+
+.bt-child::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 22px;
+    border-left: 1px solid #555;
+}
+
+.bt-children::before {
+    content: "";
+    position: absolute;
+    height: 24px;
+    margin-top: -24px;
+    left: 50%;
+    border-left: 1px solid #555;
+}
+
+.bt-branch {
+    position: relative;
+}
+
+.bt-edge-label {
+    margin-bottom: 8px;
+}
+
+.bt-empty {
+    padding: 15px 0;
+    color: #777;
+    font-size: 12px;
+}
+
+.bt-traversal-output {
+    color: var(--text);
+    font-family: Consolas, monospace;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+    .bt-scroll {
+        padding: 18px 12px;
+    }
+
+    .bt-child {
+        min-width: 76px;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+} 
